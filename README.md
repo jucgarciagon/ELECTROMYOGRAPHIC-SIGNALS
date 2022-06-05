@@ -1,0 +1,2 @@
+# Se-alesElectromiograficas
+l proceso realizado para la elaboración de un sistema de adquisición, procesamiento y comunicación de la información de una señal electromiográfica, producida en la contracción del músculo en el antebrazo, debido a la acción de empuñar la mano; esta señal capturada por un sistema amplificador (sensor muscular AT-04-001 de MyoWare) es procesada mediante la elaboración de un algoritmo en el pic18f2550, realizado bajo la implementación de la herramienta matemática llamada transformada discreta wavelet (WTD).
