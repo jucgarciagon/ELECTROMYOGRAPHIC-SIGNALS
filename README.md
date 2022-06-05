@@ -84,13 +84,13 @@ The ADC was made with the following specifications:
 Acquisition Time: 1MHz
 Conversion Time: 0.000016 s
 
-> ###Thursday, August 01, 2019.
+> ### Thursday, August 01, 2019.
 The characterization of the Myoware Muscle Sensor AT-04-001 was performed, and the characteristics were summarized as shown below:
 
 #### MyoWare Muscle Sensor Characterization AT-04-001
 ![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/imagen/MyoWareMusculeSensor1.png)
 
-#####Features:
+##### Features:
 - 3V to 5V power supply.
 - Reverse polarity protection.
 - Outputs.     	
@@ -104,4 +104,72 @@ The differences between the different signal types are shown in Figure 3. Within
 
 ![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/imagen/MyoWareMusculeSensor3.png)
 
-**NOTE:**An attempt was made to perform ADC verification on PIC18F2550, but due to additional permissions for ADC verification via serial communication, the test could not be performed. Therefore, it is postponed to the next session.
+**NOTE:** An attempt was made to perform ADC verification on PIC18F2550, but due to additional permissions for ADC verification via serial communication, the test could not be performed. Therefore, it is postponed to the next session.
+
+> ### Saturday, August 03, 2019.
+
+A search was performed for the creation of the Wavelet Transform inside the PIC18F2550. Performing the evaluation of what was needed for the project, it was found that the Wavelet Transform with the least memory consumption was the Haar Mother Wavelet.
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/imagen/wavelet1.png)
+
+> ### Monday, August 05, 2019.
+
+It was possible to configure the HC-06 bluetooth module for computer-to-cell phone communication. It was successfully performed sending information from the PIC18F2550, but it was not possible to send concise information via the Bluetooth module. It is believed that the error is in the ADC because it was successfully achieved sending the initial text "Initialization of analog/digital conversion."
+
+We continue with the problem of sending this information by serial cable to the computer. This communication is still not successfully achieved. 
+
+> ### Tuesday, August 06, 2019.
+
+The ADC was tested along with the serial communication and the Arduino serial terminal to the computer. The test was successful for a DC signal, controlling the input voltage to the PIC18F2550 with a potentiometer. 
+
+The integration of the values on the serial output to a.txt file is planned for the function graph to be input to the PIC18F2550. This signal should be equal to the signal input to the micro-controller.
+
+> ### Thursday, August 08, 2019.
+
+The ADC of a sinusoidal signal was successfully performed on the PIC18F2550. This signal was sent via serial communication to a Bluetooth module, which was subsequently sent to a cell phone with a Bluetooth terminal. The application allows you to send the data collected on your cell phone in a.txt file, which is plotted in an attempt to reconstruct the signal.The sine signal was reconstructed but does not have much detail (or a smooth reconstruction) of the function. It is left as a task to change the sampling frequency.
+
+> ### Mars August 12, 2019.
+
+The sampling frequency change was performed. Sampling with acceptable resolution at 500 Hz was achieved. Discrete Wavelet transform with Wavelet Haar family in FORTRAN language was performed and is functional. We will continue with the translation of the DWT in FORTRAN language to C language to be implemented in the PIC18F2550.
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/Wavelet/Original%20-%20128%20points.png)
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/Wavelet/6th%20approximation.png)
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/Wavelet/5th%20approximate.png)
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/Wavelet/4th%20approximation.png)
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/Wavelet/3rd%20approximation.png)
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/Wavelet/2nd%20approximation.png)
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/Wavelet/1st%20approximation.png)
+
+![](https://github.com/jucgarciagon/Se-alesElectromiograficas/blob/main/Wavelet/0th%20approximation.png)
+
+> ### Thursday, 15th of August, 2019
+
+We successfully performed ADC signal sending with a maximum frequency of 1 kHz.
+
+> ### The 17th of August, 2019
+
+Started translation of discrete wavelet transform code with Harr mother wavelet kernel in the FORTRAN language to the C language. 
+
+> ### Sunday, August 18, 2019.
+
+The application that will allow visualization of the current state of the hand was successfully realized. The app was developed on the MIT app inventor website. When the cell phone bluetooth receives a "5", it changes the image to "Gripped". With any other value, the app arranges the image to "Open". 
+
+> ### Monday, August 19, 2019.
+
+The first translation of the discrete Wavelet transform on the PIC18F2550 microcontroller was attempted, unsuccessfully. It is believed that there may be an error in how the filling and calling of the wavelet coefficient vector are being performed.
+
+> ### Tuesday, 20th of August, 2019.
+
+We successfully performed the translation of the Wavelet Haar transform from the FOTRAN language to the C language. The wavelet transform of a sinusoidal signal from the signal generator was performed by the PIC18F2550.
+
+With the transform working correctly, the coupling of all the parts of the project was carried out. With everything assembled, we proceeded to perform the tests with the sensor, the microcontroller, Bluetooth module, and the EMG App. These tests were successful, but the response times of the App and the serial sending of the Bluetooth module must be corrected in the programming.
+
+> ### Thursday, August 22, 2019.
+
+The printed circuit board was designed for bakelite assembly. This design was sent to CNC cutting.
