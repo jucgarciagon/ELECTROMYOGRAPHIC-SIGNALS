@@ -1,0 +1,71 @@
+! ============================================================================
+! Name        : Wavelet_Haar_Transformation.f90
+! Author      : 
+! Version     :
+! Copyright   : Your copyright notice
+! Description : Hello World in Fortran
+! ============================================================================
+
+!-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-MAIN PROGRAM-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+PROGRAM Wavelet_Haar_Transformation
+    IMPLICIT NONE
+    REAL::x,y,xt,aux_1,aux_2,ScaleFunction,MotherWavelet,approx
+    REAL,ALLOCATABLE,DIMENSION(:,:)::Wavelet_coefficients
+    REAL,ALLOCATABLE,DIMENSION(:)::data
+    INTEGER::i,j,k,l,m,long,width,scalee,a
+    WRITE(*,*)"What long is the data vector?"
+    READ(*,*)long
+    !*The data vector should only have 2^n data and 'n' indicates the largest scale of the approximation
+    width=log(REAL(long))/log(2.)                                               !width=log_2(long)
+    WRITE(*,*)"What approximation do you need?"
+    WRITE(*,1)0,width-1
+    READ(*,*)a
+    ALLOCATE(Wavelet_coefficients(long,width+1),data(long))
+    OPEN(UNIT=1,FILE="Points_xt_y.txt")
+    OPEN(UNIT=2,FILE="Wavelet_coefficients.txt")
+    OPEN(UNIT=3,FILE="Approximation_HAAR.txt")
+    DO i=1,long
+        READ(1,*)x,y
+        data(i)=x
+        Wavelet_coefficients(i,1)=y
+    END DO
+    !----------------------------------BEGIN DWT-----------------------------------------
+    !COEFFICIENTS
+    scalee=long
+    DO j=1,width                  !(j+1)-th approximation
+        m=0
+        DO i=1,scalee,2
+            l=0
+            l=i+1
+            aux_1=(Wavelet_coefficients(i,j)+Wavelet_coefficients(l,j))/2.      !LOW FILTER
+            aux_2=(Wavelet_coefficients(l,j)-Wavelet_coefficients(i,j))/2.      !HIGH FITLER
+            Wavelet_coefficients(m+1,j+1)=aux_1
+            Wavelet_coefficients((scalee/2)+m+1,j+1)=aux_2
+            m=m+1
+        END DO
+        DO i=scalee+1,long
+            Wavelet_coefficients(i,j+1)=Wavelet_coefficients(i,j)
+        END DO
+        scalee=scalee/2.            !Re-scale
+    END DO
+
+    !APPROXIMATION
+    l=0
+    DO i=1,((long/2**a))*(long/2**(width-a)),(long/2**a)
+        l=l+1
+        approx=Wavelet_coefficients(l,width-a+1)
+        DO k=0,(long/2**a)-1
+            WRITE(3,2)data(i+k),approx
+        END DO
+    END DO
+    !--------------------------WRITE ALL COEFFICIENTS OF DWT-------------------------------
+    WRITE(2,3)
+    DO i=1,long
+        WRITE(2,4)(Wavelet_coefficients(i,l),l=1,width+1)
+    END DO
+    !-----FORMAT DECLARATION
+1   FORMAT(1X,"From ",I2,2X,"To ",I2)
+2   FORMAT(F10.6,T20,F10.6,T39)
+3   FORMAT("Each column shows all Wavelet Coefficients, the first column is the data vector.",/,/)
+4   FORMAT(64F15.6)
+END PROGRAM
